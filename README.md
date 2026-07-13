@@ -1,4 +1,4 @@
-# hcm — hybrid cluster manager (v0 scaffold)
+# hcm — hybrid cluster manager (v0)
 
 A single Go binary that manages HPC clusters across on-prem bare metal and
 Azure from one declarative model. This v0 implements the **provisioning core**:
@@ -13,10 +13,6 @@ Requires Go 1.22+. On a networked machine:
 ```
 go build -o hcm .
 ```
-
-(This repo vendors `yaml.v3` under `third_party/` via a filesystem `replace`
-only because the build sandbox blocked the module proxy. On a normal machine
-you can drop the `replace` line in `go.mod` and run `go mod tidy` instead.)
 
 ## Try it
 
@@ -56,7 +52,7 @@ touched by discovery.
   artifacts; `Plan()` diffs them against the embedded store; `Apply()` writes
   and records them. Idempotent by construction.
 
-## Where later features slot in (not in v0)
+## Later features (not in v0)
 
 - **CPU vs GPU / CUDA / OFED** — already modeled: a GPU partition points at an
   image whose `payload_roles` include `cuda`/`ofed`. The control plane *selects*
