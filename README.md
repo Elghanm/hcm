@@ -1,4 +1,4 @@
-# hcm — hybrid cluster manager (v0)
+# hcm - hybrid cluster manager (v0)
 
 A single Go binary that manages HPC clusters across on-prem bare metal and
 Azure from one declarative model. This v0 implements the **provisioning core**:
@@ -42,29 +42,29 @@ touched by discovery.
 
 ## How the pieces map
 
-- **`cluster.yaml`** — policy: network, cloud (optional), identity, scheduler,
+- **`cluster.yaml`** - policy: network, cloud (optional), identity, scheduler,
   storage, images, partitions. Versioned (`apiVersion: hcm/v1`) so it can be
   migrated as the schema evolves. Secrets appear only as `ref:` pointers.
-- **`nodes.conf`** — columnar inventory. `boot_mac` is the primary key.
-- **partition** — the keystone object binding a node group → an image → a
+- **`nodes.conf`** - columnar inventory. `boot_mac` is the primary key.
+- **partition** - the keystone object binding a node group → an image → a
   scheduler queue, tagged `onprem` or `cloud`.
-- **reconcile** (`internal/reconcile`) — pure `Render()` functions produce
+- **reconcile** (`internal/reconcile`) - pure `Render()` functions produce
   artifacts; `Plan()` diffs them against the embedded store; `Apply()` writes
   and records them. Idempotent by construction.
 
 ## Later features (not in v0)
 
-- **CPU vs GPU / CUDA / OFED** — already modeled: a GPU partition points at an
+- **CPU vs GPU / CUDA / OFED** - already modeled: a GPU partition points at an
   image whose `payload_roles` include `cuda`/`ofed`. The control plane *selects*
   the image and tags the SLURM partition `Gres=gpu`; the drivers themselves are
   baked by the Ansible payload roles at image-build time, not installed here.
-- **HA** — `hcm node add-ha` (stub). Peers share an external Postgres backend
+- **HA** - `hcm node add-ha` (stub). Peers share an external Postgres backend
   behind a VIP; embedded-store single-binary stays the default for non-HA.
-- **`hcm serve`** — the daemon (HTTP API + continuous reconcile loop). The CLI
+- **`hcm serve`** - the daemon (HTTP API + continuous reconcile loop). The CLI
   already exercises the same `internal/` packages the daemon will.
-- **Azure backend** — `cloud.enabled: true` unlocks gallery images + VMSS;
+- **Azure backend** - `cloud.enabled: true` unlocks gallery images + VMSS;
   a `target: cloud` partition is burst capacity on the same image profile.
-- **Monitoring / k8s** — future `monitoring:` and `kubernetes:` sections in
+- **Monitoring / k8s** - future `monitoring:` and `kubernetes:` sections in
   `cluster.yaml`, each emitting their own artifacts through the same loop.
 
 ## Layout
